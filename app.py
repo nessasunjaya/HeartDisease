@@ -5,8 +5,8 @@ from sklearn.preprocessing import StandardScaler
 
 model = pickle.load(open('model.pkl', 'rb'))
 
-def predict_failure(age, sex, chestPainType, restingBP, cholesterol, fastingBS, restingECG, maxHR, exerciseAngina, oldPeak, st_Slope):
-    input = {'Age': [age], 'Sex': [sex], 'ChestPainType': [chestPainType], 'RestingBP': [restingBP], 'Cholesterol': [cholesterol], 'FastingBS': [fastingBS], 'RestingECG': [restingECG], 'MaxHR': [maxHR], 'ExerciseAngina': [exerciseAngina], 'Oldpeak': [oldPeak], 'ST_Slope': [st_Slope]}
+def predict_disease(age, sex, chestPainType, restingBP, cholesterol, fastingBS, maxHR, exerciseAngina, oldPeak, st_Slope):
+    input = {'Age': [age], 'Sex': [sex], 'ChestPainType': [chestPainType], 'RestingBP': [restingBP], 'Cholesterol': [cholesterol], 'FastingBS': [fastingBS], 'MaxHR': [maxHR], 'ExerciseAngina': [exerciseAngina], 'Oldpeak': [oldPeak], 'ST_Slope': [st_Slope]}
     
     input = pd.DataFrame(input)
     scaler = StandardScaler()
@@ -17,7 +17,7 @@ def predict_failure(age, sex, chestPainType, restingBP, cholesterol, fastingBS, 
     return int(prediction)
 
 def main():
-    st.title("Heart Failure Prediction")
+    st.title("Heart Disease Prediction")
     html_temp = """
         <div>
         <h5 style="color: white;">
@@ -35,9 +35,6 @@ def main():
         ASY = 0 <br>
         ATA = 1 <br>
         NAP = 2 <br><br>
-        <span style="color: #EF7C8E"> Resting ECG </span> <br>
-        FastingBS <= 120 mg/dl = 0 <br>
-        FastingBS > 120 mg/dl = 1 <br><br>
         <span style="color: #EF7C8E"> Exercise Angina </span> <br>
         N = 0 <br>
         Y = 1 <br><br>
@@ -56,7 +53,6 @@ def main():
     restingBP = st.text_input("Resting Blood Pressure")
     cholesterol = st.text_input("Cholesterol")
     fastingBS = st.text_input("Fasting Blood Sugar (FastingBS <= 120 mg/dl = 0, FastingBS > 120 mg/dl = 1)")
-    restingECG = st.text_input("Resting Electrocardiogram Results (LVH = 0, Normal = 1, ST = 2)")
     maxHR = st.text_input("Max Heart Rate")
     exerciseAngina = st.text_input("Exercise Angina (No = 0, Yes = 1)")
     oldPeak = st.text_input("Old Peak")
@@ -64,24 +60,18 @@ def main():
 
     safe_html = """
         <div style="background-color: green; padding: 10px;">
-        <h2 style="color: white; text-align: center;">You don't have heart failure</h2>
+        <h2 style="color: white; text-align: center;">You don't have heart disease</h2>
         </div>
     """
 
     danger_html = """
         <div style="background-color: red; padding: 10px;">
-        <h2 style="color: white; text-align: center;">You have heart failure</h2>
-        </div>
-    """
-
-    error_html = """
-        <div style="background-color: red; padding: 10px;">
-        <h2 style="color: white; text-align: center;">Please input the correct data!</h2>
+        <h2 style="color: white; text-align: center;">You have heart disease</h2>
         </div>
     """
 
     if st.button("Predict"):
-        output = predict_failure(age, sex, chestPainType, restingBP, cholesterol, fastingBS, restingECG, maxHR, exerciseAngina, oldPeak, st_Slope)
+        output = predict_disease(age, sex, chestPainType, restingBP, cholesterol, fastingBS, maxHR, exerciseAngina, oldPeak, st_Slope)
 
         if output == 1:
             st.markdown(danger_html, unsafe_allow_html=True)
