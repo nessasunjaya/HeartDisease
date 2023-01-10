@@ -5,5 +5,5 @@ The project is to predict whether a patient has heart failure using one of the m
 The dataset is retrieved from this link:
 https://www.kaggle.com/datasets/fedesoriano/heart-failure-prediction
 
-The project will consist of 2 python files, one for the KNN model and one for the application, and a pkl file for the model.
+The project will consist of 2 python files, one for the KNN model and one for the application, an ipynb file, and a pkl file for the model.
 The application is built using streamlit.
